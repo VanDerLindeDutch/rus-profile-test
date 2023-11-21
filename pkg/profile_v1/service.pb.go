@@ -20,6 +20,110 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ErrorType int32
+
+const (
+	ErrorType_INCORRECT_INN ErrorType = 0
+	ErrorType_NOT_FOUND     ErrorType = 1
+	ErrorType_INTERNAL      ErrorType = 2
+)
+
+// Enum value maps for ErrorType.
+var (
+	ErrorType_name = map[int32]string{
+		0: "INCORRECT_INN",
+		1: "NOT_FOUND",
+		2: "INTERNAL",
+	}
+	ErrorType_value = map[string]int32{
+		"INCORRECT_INN": 0,
+		"NOT_FOUND":     1,
+		"INTERNAL":      2,
+	}
+)
+
+func (x ErrorType) Enum() *ErrorType {
+	p := new(ErrorType)
+	*p = x
+	return p
+}
+
+func (x ErrorType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ErrorType) Descriptor() protoreflect.EnumDescriptor {
+	return file_api_profile_v1_service_proto_enumTypes[0].Descriptor()
+}
+
+func (ErrorType) Type() protoreflect.EnumType {
+	return &file_api_profile_v1_service_proto_enumTypes[0]
+}
+
+func (x ErrorType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ErrorType.Descriptor instead.
+func (ErrorType) EnumDescriptor() ([]byte, []int) {
+	return file_api_profile_v1_service_proto_rawDescGZIP(), []int{0}
+}
+
+type Error struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Message string    `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Type    ErrorType `protobuf:"varint,2,opt,name=type,proto3,enum=profile_v1.ErrorType" json:"type,omitempty"`
+}
+
+func (x *Error) Reset() {
+	*x = Error{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_profile_v1_service_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Error) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Error) ProtoMessage() {}
+
+func (x *Error) ProtoReflect() protoreflect.Message {
+	mi := &file_api_profile_v1_service_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Error.ProtoReflect.Descriptor instead.
+func (*Error) Descriptor() ([]byte, []int) {
+	return file_api_profile_v1_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Error) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *Error) GetType() ErrorType {
+	if x != nil {
+		return x.Type
+	}
+	return ErrorType_INCORRECT_INN
+}
+
 type FindRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -31,7 +135,7 @@ type FindRequest struct {
 func (x *FindRequest) Reset() {
 	*x = FindRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_profile_v1_service_proto_msgTypes[0]
+		mi := &file_api_profile_v1_service_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -44,7 +148,7 @@ func (x *FindRequest) String() string {
 func (*FindRequest) ProtoMessage() {}
 
 func (x *FindRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_profile_v1_service_proto_msgTypes[0]
+	mi := &file_api_profile_v1_service_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +161,7 @@ func (x *FindRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRequest.ProtoReflect.Descriptor instead.
 func (*FindRequest) Descriptor() ([]byte, []int) {
-	return file_api_profile_v1_service_proto_rawDescGZIP(), []int{0}
+	return file_api_profile_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *FindRequest) GetInn() string {
@@ -72,16 +176,17 @@ type FindResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Inn          string `protobuf:"bytes,1,opt,name=inn,proto3" json:"inn,omitempty"`
-	Kpp          string `protobuf:"bytes,2,opt,name=kpp,proto3" json:"kpp,omitempty"`
-	CompanyName  string `protobuf:"bytes,3,opt,name=companyName,proto3" json:"companyName,omitempty"`
-	DirectorName string `protobuf:"bytes,4,opt,name=directorName,proto3" json:"directorName,omitempty"`
+	// Types that are assignable to Result:
+	//
+	//	*FindResponse_Error
+	//	*FindResponse_Response
+	Result isFindResponse_Result `protobuf_oneof:"result"`
 }
 
 func (x *FindResponse) Reset() {
 	*x = FindResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_profile_v1_service_proto_msgTypes[1]
+		mi := &file_api_profile_v1_service_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -94,7 +199,7 @@ func (x *FindResponse) String() string {
 func (*FindResponse) ProtoMessage() {}
 
 func (x *FindResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_profile_v1_service_proto_msgTypes[1]
+	mi := &file_api_profile_v1_service_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,31 +212,111 @@ func (x *FindResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindResponse.ProtoReflect.Descriptor instead.
 func (*FindResponse) Descriptor() ([]byte, []int) {
-	return file_api_profile_v1_service_proto_rawDescGZIP(), []int{1}
+	return file_api_profile_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *FindResponse) GetInn() string {
+func (m *FindResponse) GetResult() isFindResponse_Result {
+	if m != nil {
+		return m.Result
+	}
+	return nil
+}
+
+func (x *FindResponse) GetError() *Error {
+	if x, ok := x.GetResult().(*FindResponse_Error); ok {
+		return x.Error
+	}
+	return nil
+}
+
+func (x *FindResponse) GetResponse() *FindSuccessfulResponse {
+	if x, ok := x.GetResult().(*FindResponse_Response); ok {
+		return x.Response
+	}
+	return nil
+}
+
+type isFindResponse_Result interface {
+	isFindResponse_Result()
+}
+
+type FindResponse_Error struct {
+	Error *Error `protobuf:"bytes,1,opt,name=error,proto3,oneof"`
+}
+
+type FindResponse_Response struct {
+	Response *FindSuccessfulResponse `protobuf:"bytes,2,opt,name=response,proto3,oneof"`
+}
+
+func (*FindResponse_Error) isFindResponse_Result() {}
+
+func (*FindResponse_Response) isFindResponse_Result() {}
+
+type FindSuccessfulResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Inn          string `protobuf:"bytes,1,opt,name=inn,proto3" json:"inn,omitempty"`
+	Kpp          string `protobuf:"bytes,2,opt,name=kpp,proto3" json:"kpp,omitempty"`
+	CompanyName  string `protobuf:"bytes,3,opt,name=companyName,proto3" json:"companyName,omitempty"`
+	DirectorName string `protobuf:"bytes,4,opt,name=directorName,proto3" json:"directorName,omitempty"`
+}
+
+func (x *FindSuccessfulResponse) Reset() {
+	*x = FindSuccessfulResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_profile_v1_service_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FindSuccessfulResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindSuccessfulResponse) ProtoMessage() {}
+
+func (x *FindSuccessfulResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_profile_v1_service_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindSuccessfulResponse.ProtoReflect.Descriptor instead.
+func (*FindSuccessfulResponse) Descriptor() ([]byte, []int) {
+	return file_api_profile_v1_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *FindSuccessfulResponse) GetInn() string {
 	if x != nil {
 		return x.Inn
 	}
 	return ""
 }
 
-func (x *FindResponse) GetKpp() string {
+func (x *FindSuccessfulResponse) GetKpp() string {
 	if x != nil {
 		return x.Kpp
 	}
 	return ""
 }
 
-func (x *FindResponse) GetCompanyName() string {
+func (x *FindSuccessfulResponse) GetCompanyName() string {
 	if x != nil {
 		return x.CompanyName
 	}
 	return ""
 }
 
-func (x *FindResponse) GetDirectorName() string {
+func (x *FindSuccessfulResponse) GetDirectorName() string {
 	if x != nil {
 		return x.DirectorName
 	}
@@ -143,25 +328,42 @@ var File_api_profile_v1_service_proto protoreflect.FileDescriptor
 var file_api_profile_v1_service_proto_rawDesc = []byte{
 	0x0a, 0x1c, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31,
 	0x2f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a,
-	0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x22, 0x1f, 0x0a, 0x0b, 0x66, 0x69,
-	0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x69, 0x6e, 0x6e,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x69, 0x6e, 0x6e, 0x22, 0x78, 0x0a, 0x0c, 0x66,
-	0x69, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x69,
-	0x6e, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x69, 0x6e, 0x6e, 0x12, 0x10, 0x0a,
-	0x03, 0x6b, 0x70, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x70, 0x70, 0x12,
-	0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d,
-	0x65, 0x12, 0x22, 0x0a, 0x0c, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x4e, 0x61, 0x6d,
-	0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x6f,
-	0x72, 0x4e, 0x61, 0x6d, 0x65, 0x32, 0x45, 0x0a, 0x08, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65,
-	0x72, 0x12, 0x39, 0x0a, 0x04, 0x66, 0x69, 0x6e, 0x64, 0x12, 0x17, 0x2e, 0x70, 0x72, 0x6f, 0x66,
-	0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x2e, 0x66, 0x69, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x18, 0x2e, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x2e,
-	0x66, 0x69, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x2c, 0x5a, 0x2a,
-	0x72, 0x75, 0x73, 0x2d, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x2d, 0x74, 0x65, 0x73, 0x74,
-	0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x3b,
-	0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x22, 0x4c, 0x0a, 0x05, 0x45, 0x72,
+	0x72, 0x6f, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x29, 0x0a,
+	0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x15, 0x2e, 0x70, 0x72,
+	0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x54, 0x79,
+	0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x22, 0x1f, 0x0a, 0x0b, 0x46, 0x69, 0x6e, 0x64,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x69, 0x6e, 0x6e, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x69, 0x6e, 0x6e, 0x22, 0x85, 0x01, 0x0a, 0x0c, 0x46, 0x69,
+	0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x29, 0x0a, 0x05, 0x65, 0x72,
+	0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x70, 0x72, 0x6f, 0x66,
+	0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x48, 0x00, 0x52, 0x05,
+	0x65, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x40, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c,
+	0x65, 0x5f, 0x76, 0x31, 0x2e, 0x46, 0x69, 0x6e, 0x64, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x66, 0x75, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00, 0x52, 0x08, 0x72,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x08, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c,
+	0x74, 0x22, 0x82, 0x01, 0x0a, 0x16, 0x46, 0x69, 0x6e, 0x64, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x66, 0x75, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03,
+	0x69, 0x6e, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x69, 0x6e, 0x6e, 0x12, 0x10,
+	0x0a, 0x03, 0x6b, 0x70, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x70, 0x70,
+	0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x4e, 0x61,
+	0x6d, 0x65, 0x12, 0x22, 0x0a, 0x0c, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x4e, 0x61,
+	0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74,
+	0x6f, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x2a, 0x3b, 0x0a, 0x09, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x54,
+	0x79, 0x70, 0x65, 0x12, 0x11, 0x0a, 0x0d, 0x49, 0x4e, 0x43, 0x4f, 0x52, 0x52, 0x45, 0x43, 0x54,
+	0x5f, 0x49, 0x4e, 0x4e, 0x10, 0x00, 0x12, 0x0d, 0x0a, 0x09, 0x4e, 0x4f, 0x54, 0x5f, 0x46, 0x4f,
+	0x55, 0x4e, 0x44, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x49, 0x4e, 0x54, 0x45, 0x52, 0x4e, 0x41,
+	0x4c, 0x10, 0x02, 0x32, 0x45, 0x0a, 0x08, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x72, 0x12,
+	0x39, 0x0a, 0x04, 0x66, 0x69, 0x6e, 0x64, 0x12, 0x17, 0x2e, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c,
+	0x65, 0x5f, 0x76, 0x31, 0x2e, 0x46, 0x69, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x18, 0x2e, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x2e, 0x46, 0x69,
+	0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x2c, 0x5a, 0x2a, 0x72, 0x75,
+	0x73, 0x2d, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x2d, 0x74, 0x65, 0x73, 0x74, 0x2f, 0x70,
+	0x6b, 0x67, 0x2f, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x3b, 0x70, 0x72,
+	0x6f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -176,19 +378,26 @@ func file_api_profile_v1_service_proto_rawDescGZIP() []byte {
 	return file_api_profile_v1_service_proto_rawDescData
 }
 
-var file_api_profile_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_api_profile_v1_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_api_profile_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_api_profile_v1_service_proto_goTypes = []interface{}{
-	(*FindRequest)(nil),  // 0: profile_v1.findRequest
-	(*FindResponse)(nil), // 1: profile_v1.findResponse
+	(ErrorType)(0),                 // 0: profile_v1.ErrorType
+	(*Error)(nil),                  // 1: profile_v1.Error
+	(*FindRequest)(nil),            // 2: profile_v1.FindRequest
+	(*FindResponse)(nil),           // 3: profile_v1.FindResponse
+	(*FindSuccessfulResponse)(nil), // 4: profile_v1.FindSuccessfulResponse
 }
 var file_api_profile_v1_service_proto_depIdxs = []int32{
-	0, // 0: profile_v1.Profiler.find:input_type -> profile_v1.findRequest
-	1, // 1: profile_v1.Profiler.find:output_type -> profile_v1.findResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: profile_v1.Error.type:type_name -> profile_v1.ErrorType
+	1, // 1: profile_v1.FindResponse.error:type_name -> profile_v1.Error
+	4, // 2: profile_v1.FindResponse.response:type_name -> profile_v1.FindSuccessfulResponse
+	2, // 3: profile_v1.Profiler.find:input_type -> profile_v1.FindRequest
+	3, // 4: profile_v1.Profiler.find:output_type -> profile_v1.FindResponse
+	4, // [4:5] is the sub-list for method output_type
+	3, // [3:4] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_api_profile_v1_service_proto_init() }
@@ -198,7 +407,7 @@ func file_api_profile_v1_service_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_api_profile_v1_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FindRequest); i {
+			switch v := v.(*Error); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -210,6 +419,18 @@ func file_api_profile_v1_service_proto_init() {
 			}
 		}
 		file_api_profile_v1_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FindRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_profile_v1_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*FindResponse); i {
 			case 0:
 				return &v.state
@@ -221,19 +442,36 @@ func file_api_profile_v1_service_proto_init() {
 				return nil
 			}
 		}
+		file_api_profile_v1_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FindSuccessfulResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_api_profile_v1_service_proto_msgTypes[2].OneofWrappers = []interface{}{
+		(*FindResponse_Error)(nil),
+		(*FindResponse_Response)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_profile_v1_service_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_api_profile_v1_service_proto_goTypes,
 		DependencyIndexes: file_api_profile_v1_service_proto_depIdxs,
+		EnumInfos:         file_api_profile_v1_service_proto_enumTypes,
 		MessageInfos:      file_api_profile_v1_service_proto_msgTypes,
 	}.Build()
 	File_api_profile_v1_service_proto = out.File

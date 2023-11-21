@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"rus-profile-test/internal/config"
+	"rus-profile-test/internal/domain/rus_profile"
 	"rus-profile-test/internal/grpc/profiler"
 )
 
@@ -18,7 +19,7 @@ type App struct {
 func NewApp(cfg *config.Config) *App {
 	server := grpc.NewServer()
 
-	profiler.Register(server)
+	profiler.Register(server, rus_profile.NewService())
 	return &App{
 		log:    log.Default(),
 		cfg:    cfg,
