@@ -16,6 +16,9 @@ type Config struct {
 	RusProfile struct {
 		BaseUrl string `env:"BASE_URL" env-default:"https://www.rusprofile.ru"`
 	}
+	Swagger struct {
+		FilePath string `env:"SWAGGER_FILE_PATH" env-default:"api/profile_v1/service.swagger.json"`
+	}
 }
 
 var instance *Config

@@ -7,8 +7,8 @@ type Profiler interface {
 }
 
 type Response struct {
-	Inn          string
-	Kpp          string
-	CompanyName  string
-	DirectorName string
+	Inn          string `json:"inn"`
+	Kpp          string `json:"kpp"`
+	CompanyName  string `json:"companyName"`
+	DirectorName string `json:"directorName"`
 }

@@ -11,12 +11,12 @@ func main() {
 	mainApp := rest_app.NewApp(cfg)
 	grpcApp := grpc_app.NewApp(cfg)
 	go func() {
-		err := mainApp.Run()
+		err := grpcApp.Run()
 		if err != nil {
 			panic(err)
 		}
 	}()
-	err := grpcApp.Run()
+	err := mainApp.Run()
 	if err != nil {
 		panic(err)
 	}

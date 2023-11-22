@@ -32,7 +32,7 @@ func (a *App) Run() error {
 
 	dopts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	swaggerFile, err := os.ReadFile("api/profile_v1/service.swagger.json")
+	swaggerFile, err := os.ReadFile(a.cfg.Swagger.FilePath)
 	if err != nil {
 		return err
 	}

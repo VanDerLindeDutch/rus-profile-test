@@ -51,32 +51,24 @@ func (s *serverApi) Find(ctx context.Context, req *profile_v1.FindRequest) (*pro
 func (s *serverApi) validateInn(inn string) error {
 	st := status.New(codes.InvalidArgument, string(error_type.IncorrectInn))
 	if len([]rune(inn)) != 10 {
-		desc := "Inn length must be equal 10"
-		v := &errdetails.BadRequest_FieldViolation{
-			Field:       "inn",
-			Description: desc,
-		}
-		br := &errdetails.BadRequest{}
-		br.FieldViolations = append(br.FieldViolations, v)
-		st, err := st.WithDetails(br)
-		if err != nil {
-			return fmt.Errorf("unexpected error attaching metadata: %v", err)
-		}
-		return st.Err()
+		return s.getDetailedErr(st, "Inn length must be equal 10")
 	}
 	if _, err := strconv.Atoi(inn); err != nil {
-		desc := "inn malformed"
-		v := &errdetails.BadRequest_FieldViolation{
-			Field:       "inn",
-			Description: desc,
-		}
-		br := &errdetails.BadRequest{}
-		br.FieldViolations = append(br.FieldViolations, v)
-		st, err := st.WithDetails(br)
-		if err != nil {
-			return fmt.Errorf("unexpected error attaching metadata: %v", err)
-		}
-		return st.Err()
+		return s.getDetailedErr(st, "inn malformed")
 	}
 	return nil
+}
+
+func (s *serverApi) getDetailedErr(st *status.Status, desc string) error {
+	v := &errdetails.BadRequest_FieldViolation{
+		Field:       "inn",
+		Description: desc,
+	}
+	br := &errdetails.BadRequest{}
+	br.FieldViolations = append(br.FieldViolations, v)
+	st, err := st.WithDetails(br)
+	if err != nil {
+		return fmt.Errorf("unexpected error attaching metadata: %v", err)
+	}
+	return st.Err()
 }
