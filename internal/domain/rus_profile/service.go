@@ -47,33 +47,34 @@ func (s *Service) parseBody(body []byte) (*profiler.Response, error) {
 
 	pBody := string(body)
 
-	innI := strings.Index(pBody, "id=\"clip_inn\"") + 14
+	innI := strings.Index(pBody, "id=\"clip_inn\"")
 	inn := make([]byte, 0, 8)
 	if innI == -1 {
 		return nil, common.NewError(error_type.NotFound, fmt.Errorf("inn not found"))
 	}
-	for i := innI; i < len(pBody); i++ {
+	for i := innI + 14; i < len(pBody); i++ {
 		if pBody[i] == '<' {
 			break
 		}
 		inn = append(inn, pBody[i])
 	}
 
-	companyNameI := strings.Index(pBody, "legalName") + 11
+	companyNameI := strings.Index(pBody, "legalName")
 	if companyNameI != -1 {
 		companyName = make([]byte, 0, 8)
-		for i := companyNameI; i < len(pBody); i++ {
+		for i := companyNameI + 12; i < len(pBody); i++ {
 			if pBody[i] == '<' {
 				break
 			}
 			companyName = append(companyName, pBody[i])
 		}
+		companyName = []byte(strings.ReplaceAll(string(companyName), "&quot;", "\""))
 	}
 
-	directorNameI := strings.Index(pBody, "not_masked,ul_dash_main,person_ul,link") + 46
+	directorNameI := strings.Index(pBody, "not_masked,ul_dash_main,person_ul,link")
 	if directorNameI != -1 {
 		directorName = make([]byte, 0, 8)
-		for i := directorNameI; i < len(pBody); i++ {
+		for i := directorNameI + 46; i < len(pBody); i++ {
 			if pBody[i] == '<' {
 				break
 			}
