@@ -1,4 +1,4 @@
-package app
+package grpc_app
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ type App struct {
 func NewApp(cfg *config.Config) *App {
 	server := grpc.NewServer()
 
-	profiler.Register(server, rus_profile.NewService())
+	grpc_profiler.Register(server, rus_profile.NewService(cfg))
 	return &App{
 		log:    log.Default(),
 		cfg:    cfg,

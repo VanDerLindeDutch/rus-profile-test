@@ -8,7 +8,13 @@ import (
 
 type Config struct {
 	GRPC struct {
-		Port int `env:"PORT" env-default:"8081"`
+		Port int `env:"GRPC_PORT" env-default:"12201"`
+	}
+	REST struct {
+		Port int `env:"HTTP_PORT" env-default:"8081"`
+	}
+	RusProfile struct {
+		BaseUrl string `env:"BASE_URL" env-default:"https://www.rusprofile.ru"`
 	}
 }
 

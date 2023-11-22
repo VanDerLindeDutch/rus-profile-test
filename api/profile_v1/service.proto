@@ -4,35 +4,26 @@ package profile_v1;
 
 option go_package = "rus-profile-test/pkg/profile_v1;profile_v1";
 
+import "google/api/annotations.proto";
+
 service Profiler {
-  rpc find (FindRequest) returns (FindResponse);
+  rpc find (FindRequest) returns (FindResponse){
+    option (google.api.http) = {
+      get: "/find/inn/{inn}"
+    };
+  };
 }
 
-enum ErrorType {
-  INCORRECT_INN = 0;
-  NOT_FOUND = 1;
-  INTERNAL = 2;
-}
-
-message Error {
-  string message = 1;
-  ErrorType type = 2;
-}
 
 message FindRequest {
   string inn = 1;
 }
 
 message FindResponse {
-  oneof result {
-    Error error = 1;
-    FindSuccessfulResponse response = 2;
-  }
-}
-
-message FindSuccessfulResponse {
   string inn = 1;
   string kpp = 2;
   string companyName = 3;
   string directorName = 4;
+
 }
+

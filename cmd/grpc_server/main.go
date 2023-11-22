@@ -1,15 +1,24 @@
 package main
 
 import (
-	app "rus-profile-test/internal/app/grpc"
+	"rus-profile-test/internal/app/grpc"
+	"rus-profile-test/internal/app/rest"
 	"rus-profile-test/internal/config"
 )
 
 func main() {
 	cfg := config.GetConfig()
-	mainApp := app.NewApp(cfg)
-	err := mainApp.Run()
+	mainApp := rest_app.NewApp(cfg)
+	grpcApp := grpc_app.NewApp(cfg)
+	go func() {
+		err := mainApp.Run()
+		if err != nil {
+			panic(err)
+		}
+	}()
+	err := grpcApp.Run()
 	if err != nil {
 		panic(err)
 	}
+
 }
