@@ -8,12 +8,16 @@ import (
 
 type Config struct {
 	GRPC struct {
-		Port int `env:"PORT" env-default:"8081"`
+		Port int `env:"GRPC_PORT" env-default:"12201"`
 	}
-	Kpi struct {
-		BaseUrl  string `env:"KPI_BASEURL" env-default:"https://development.kpi-drive.ru/_api/"`
-		Username string `env:"KPI_USERNAME" env-default:"admin"`
-		Password string `env:"KPI_PASSWORD" env-default:"admin"`
+	REST struct {
+		Port int `env:"HTTP_PORT" env-default:"8081"`
+	}
+	RusProfile struct {
+		BaseUrl string `env:"BASE_URL" env-default:"https://www.rusprofile.ru"`
+	}
+	Swagger struct {
+		FilePath string `env:"SWAGGER_FILE_PATH" env-default:"api/profile_v1/service.swagger.json"`
 	}
 }
 

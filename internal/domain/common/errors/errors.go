@@ -1,7 +1,7 @@
 package common
 
 import (
-	"rus-profile-test/internal/domain/common/error_type"
+	"rus-profile-test/internal/domain/common/errors/error_type"
 )
 
 type Error struct {
